@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { prisma } from '@crm/database'
+import { prisma, Prisma } from '@crm/database'
 import { loginSchema, registerSchema, DEFAULT_PIPELINE_STAGES } from '@crm/shared'
 import { authenticate } from '../../plugins/auth'
 
@@ -56,7 +56,7 @@ router.post('/register', async (req, res) => {
     }
 
     // Single transaction: user → workspace → membership → pipeline + stages
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const user = await tx.user.create({
         data: { name, email, passwordHash },
       })
@@ -207,7 +207,7 @@ router.get('/me', authenticate, async (req, res) => {
         email: user.email,
         image: user.image,
         createdAt: user.createdAt,
-        workspaces: user.memberships.map((m) => ({
+        workspaces: user.memberships.map((m: any) => ({
           ...m.workspace,
           role: m.role,
         })),

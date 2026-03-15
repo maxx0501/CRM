@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { prisma } from '@crm/database'
+import { prisma, Prisma } from '@crm/database'
 import { z } from 'zod'
 
 const router: Router = Router()
@@ -109,7 +109,7 @@ router.post('/whatsapp/:workspaceId', async (req, res) => {
 
     // ── 5. Upsert conversation (and optionally create lead) ──
     try {
-      await prisma.$transaction(async (tx) => {
+      await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
         // Find or create conversation
         let conversation = await tx.conversation.findUnique({
           where: {

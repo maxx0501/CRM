@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { prisma } from '@crm/database'
+import { prisma, Prisma } from '@crm/database'
 import { createAppointmentSchema, updateAppointmentSchema } from '@crm/shared'
 import { requireWorkspace } from '../../plugins/tenant'
 
@@ -146,7 +146,7 @@ router.post('/', async (req, res) => {
       }
     }
 
-    const appointment = await prisma.$transaction(async (tx) => {
+    const appointment = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const appt = await tx.appointment.create({
         data: {
           workspaceId: req.workspaceId!,
@@ -231,7 +231,7 @@ router.patch('/:id', async (req, res) => {
     const wasCompleted =
       parsed.data.status === 'COMPLETED' && appointment.status !== 'COMPLETED'
 
-    const updated = await prisma.$transaction(async (tx) => {
+    const updated = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const updatedAppt = await tx.appointment.update({
         where: { id: appointment.id },
         data: {

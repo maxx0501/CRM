@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { prisma } from '@crm/database'
+import { prisma, Prisma } from '@crm/database'
 import { createWorkspaceSchema, updateWorkspaceSchema } from '@crm/shared'
 import { authenticate } from '../../plugins/auth'
 
@@ -38,7 +38,7 @@ router.get('/', async (req, res) => {
 
     return res.json({
       success: true,
-      data: memberships.map((m) => ({
+      data: memberships.map((m: any) => ({
         ...m.workspace,
         role: m.role,
       })),
@@ -70,7 +70,7 @@ router.post('/', async (req, res) => {
       })
     }
 
-    const workspace = await prisma.$transaction(async (tx) => {
+    const workspace = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const ws = await tx.workspace.create({ data: { name, slug, niche } })
       await tx.workspaceMember.create({
         data: { userId: req.userId!, workspaceId: ws.id, role: 'OWNER' },

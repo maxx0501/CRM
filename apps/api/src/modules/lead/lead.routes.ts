@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { prisma } from '@crm/database'
+import { prisma, Prisma } from '@crm/database'
 import {
   createLeadSchema,
   updateLeadSchema,
@@ -168,7 +168,7 @@ router.post('/', async (req, res) => {
     })
     const position = lastLead ? lastLead.position + 1 : 0
 
-    const lead = await prisma.$transaction(async (tx) => {
+    const lead = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const newLead = await tx.lead.create({
         data: {
           workspaceId: req.workspaceId!,
@@ -352,7 +352,7 @@ router.patch('/:id/move', async (req, res) => {
 
     const isStageChange = stageId !== lead.stageId
 
-    const updated = await prisma.$transaction(async (tx) => {
+    const updated = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const updatedLead = await tx.lead.update({
         where: { id: lead.id },
         data: {
@@ -474,7 +474,7 @@ router.post('/:id/notes', async (req, res) => {
       })
     }
 
-    const note = await prisma.$transaction(async (tx) => {
+    const note = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const newNote = await tx.note.create({
         data: { leadId: lead.id, content: parsed.data.content },
       })
@@ -541,7 +541,7 @@ router.post('/:id/tags', async (req, res) => {
       })
     }
 
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       // Upsert tag so we can reuse existing tags by name
       const tag = await tx.tag.upsert({
         where: {
@@ -600,7 +600,7 @@ router.delete('/:id/tags/:tagId', async (req, res) => {
       return res.status(404).json({ success: false, error: 'Associação de tag não encontrada' })
     }
 
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       await tx.leadTag.delete({
         where: {
           leadId_tagId: { leadId: req.params.id, tagId: req.params.tagId },

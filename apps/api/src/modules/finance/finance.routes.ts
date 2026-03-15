@@ -1,7 +1,6 @@
 import { Router } from 'express'
-import { prisma } from '@crm/database'
+import { prisma, Prisma } from '@crm/database'
 import { createTransactionSchema, updateTransactionSchema } from '@crm/shared'
-import { Prisma } from '@crm/database'
 import { requireWorkspace } from '../../plugins/tenant'
 
 const router: Router = Router()
@@ -169,7 +168,7 @@ router.post('/', async (req, res) => {
       }
     }
 
-    const transaction = await prisma.$transaction(async (tx) => {
+    const transaction = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const created = await tx.transaction.create({
         data: {
           workspaceId: req.workspaceId!,
