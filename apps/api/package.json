@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "ts-node-dev --respawn src/server.ts",
-    "build": "prisma generate --schema=../database/prisma/schema.prisma && tsc",
+    "build": "prisma generate --schema=../../packages/database/prisma/schema.prisma && tsc",
     "start": "node dist/server.js",
     "lint": "eslint src/",
     "type-check": "tsc --noEmit"
