@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(npm:*)",
+      "Bash(npm install:*)",
+      "Bash(ls:*)",
+      "Bash(cd:*)",
+      "Bash(docker exec:*)",
+      "Bash(cat:*)"
+    ]
+  }
+}

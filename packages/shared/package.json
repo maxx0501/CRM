@@ -1,0 +1,17 @@
+{
+  "name": "@crm/shared",
+  "private": true,
+  "version": "0.0.0",
+  "main": "./src/index.ts",
+  "scripts": {
+    "lint": "eslint src/",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@crm/tsconfig": "workspace:*",
+    "typescript": "^5.7.0"
+  }
+}
