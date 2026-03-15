@@ -39,7 +39,8 @@ export async function sendWhatsAppMessage({
   const payload: WhatsAppApiPayload = { phone, message }
   if (mediaUrl) payload.mediaUrl = mediaUrl
 
-  const fetchRes: globalThis.Response = await fetch(`${workspace.whatsappApiUrl}/send-message`, {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const fetchRes: any = await fetch(`${workspace.whatsappApiUrl}/send-message`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -55,7 +56,7 @@ export async function sendWhatsAppMessage({
     )
   }
 
-  const data = (await fetchRes.json()) as { id?: string; messageId?: string }
+  const data = fetchRes.json() as { id?: string; messageId?: string }
   // Normalize different API response shapes — unofficial APIs vary
   return data.id ?? data.messageId ?? null
 }
