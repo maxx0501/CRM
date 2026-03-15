@@ -1,4 +1,0 @@
-{
-  "installCommand": "cd ../.. && pnpm install",
-  "buildCommand": "cd ../.. && pnpm --filter @crm/shared build && cd apps/web && npx next build"
-}
