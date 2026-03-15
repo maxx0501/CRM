@@ -2,8 +2,10 @@
   "name": "@crm/shared",
   "private": true,
   "version": "0.0.0",
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
+    "build": "tsc",
     "lint": "eslint src/",
     "type-check": "tsc --noEmit"
   },
