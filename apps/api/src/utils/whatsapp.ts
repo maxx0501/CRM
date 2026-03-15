@@ -39,7 +39,7 @@ export async function sendWhatsAppMessage({
   const payload: WhatsAppApiPayload = { phone, message }
   if (mediaUrl) payload.mediaUrl = mediaUrl
 
-  const response = await fetch(`${workspace.whatsappApiUrl}/send-message`, {
+  const fetchRes: globalThis.Response = await fetch(`${workspace.whatsappApiUrl}/send-message`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -48,14 +48,14 @@ export async function sendWhatsAppMessage({
     body: JSON.stringify(payload),
   })
 
-  if (!response.ok) {
-    const body = await response.text()
+  if (!fetchRes.ok) {
+    const body = await fetchRes.text()
     throw new Error(
-      `WhatsApp API error (${response.status}): ${body}`,
+      `WhatsApp API error (${fetchRes.status}): ${body}`,
     )
   }
 
-  const data = (await response.json()) as { id?: string; messageId?: string }
+  const data = (await fetchRes.json()) as { id?: string; messageId?: string }
   // Normalize different API response shapes — unofficial APIs vary
   return data.id ?? data.messageId ?? null
 }
