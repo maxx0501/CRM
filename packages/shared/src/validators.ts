@@ -142,7 +142,7 @@ export const createTransactionSchema = z.object({
   amount: z.number().positive(),
   method: paymentMethodEnum.optional(),
   isPaid: z.boolean().optional(),
-  dueDate: z.string().datetime().optional(),
+  dueDate: z.string().optional().transform((v) => v && !v.includes('T') ? `${v}T00:00:00.000Z` : v),
 })
 
 export const updateTransactionSchema = createTransactionSchema.partial()
