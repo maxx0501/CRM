@@ -8,7 +8,9 @@
       "Bash(cd:*)",
       "Bash(docker exec:*)",
       "Bash(cat:*)",
-      "Bash(pnpm type-check:*)"
+      "Bash(pnpm type-check:*)",
+      "Bash(pnpm install:*)",
+      "Bash(grep -rn \"from ''@crm/database''\" apps/api/src/modules/*/)"
     ]
   }
 }
